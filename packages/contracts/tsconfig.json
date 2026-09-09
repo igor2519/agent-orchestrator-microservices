@@ -1,0 +1,13 @@
+{
+  "extends": "tsconfig/nestjs.json",
+  "compilerOptions": {
+    // Type-checking only. The inherited `declaration`/`sourceMap` settings have no
+    // `outDir` here, so without this any `tsc -p tsconfig.json` - or an editor
+    // build task - emits .js/.d.ts/.map next to every source file. tsconfig.build.json
+    // is the config that actually emits, and it sets `noEmit: false` with an outDir.
+    "noEmit": true,
+    "typeRoots": ["./node_modules/@types", "../../node_modules/@types"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "../../node_modules", "dist"]
+}

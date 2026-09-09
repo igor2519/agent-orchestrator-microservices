@@ -1,0 +1,119 @@
+/*
+ * Tailwind CSS v4 uses a CSS-first configuration; the former tailwind.config.js
+ * is expressed below. Preflight is deliberately not imported, which is the v4
+ * equivalent of the v3 `corePlugins: { preflight: false }` option.
+ */
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@source '../app';
+@source '../src';
+
+/* `exclude: base` replaces the v4 daisyUI `base: false` option */
+@plugin 'daisyui' {
+  themes: mytheme --default;
+  exclude: base;
+  root: ':root';
+  logs: false;
+}
+
+@plugin 'daisyui/theme' {
+  name: 'mytheme';
+  default: true;
+  --color-primary: #1f53a6;
+  --color-secondary: #ffffff;
+  --color-accent: #d4f8de;
+  --color-neutral: #ffffff;
+  --color-base-100: #fff;
+  --color-info: lightblue;
+  --color-success: #319060;
+  --color-warning: yellow;
+  --color-error: red;
+}
+
+html {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+/*
+ * Preflight is off (see above), so browser defaults still apply: h1 keeps a huge
+ * margin, tables keep border-spacing, and buttons keep the OS font. Rather than
+ * turning preflight back on - which would change daisyUI's assumptions - this is a
+ * narrow base layer covering only what the app actually renders. Utilities sit in
+ * a later layer, so any class still wins over these.
+ */
+@layer base {
+  body {
+    background-color: #f6f7f9;
+    background-image: radial-gradient(60rem 30rem at 50% -12rem, #e8eefb 0%, transparent 70%);
+    background-repeat: no-repeat;
+    color: #1c1917;
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      'Segoe UI',
+      Roboto,
+      Helvetica,
+      Arial,
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  figure {
+    margin: 0;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* A focus ring the whole app shares, rather than per-control guesswork. */
+  :where(a, button, input, select, textarea):focus-visible {
+    outline: 2px solid #1f53a6;
+    outline-offset: 2px;
+  }
+}

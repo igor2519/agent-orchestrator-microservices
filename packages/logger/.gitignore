@@ -1,0 +1,9 @@
+dist
+node_modules
+*.tsbuildinfo
+
+# Compiler output never belongs beside the sources; this package is TypeScript only.
+src/**/*.js
+src/**/*.d.ts
+src/**/*.js.map
+src/**/*.d.ts.map

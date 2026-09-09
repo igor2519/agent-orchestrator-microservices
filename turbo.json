@@ -1,0 +1,111 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [
+    "**/.env"
+  ],
+  "globalEnv": [
+    "NODE_ENV",
+    "APP_NAME",
+    "BACKEND_HOST_URL",
+    "FRONTEND_HOST_URL",
+    "ENABLE_SWAGGER",
+    "API_KEY",
+    "DATABASE_HOST",
+    "DATABASE_PORT",
+    "DATABASE_USERNAME",
+    "DATABASE_PASSWORD",
+    "DATABASE_NAME",
+    "RABBITMQ_URL",
+    "NEXT_PUBLIC_*",
+    "CDN_BASE_URL",
+    "ANALYZE",
+    "ALLOW_PRIVATE_CALLBACK_URLS",
+    "WEBHOOK_SIGNING_SECRET"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "dist/**"
+      ]
+    },
+    "api#gen:api-client": {
+      "dependsOn": [
+        "api#build"
+      ]
+    },
+    "api-client#gen:api-client": {
+      "dependsOn": [
+        "api#gen:api-client"
+      ]
+    },
+    "gen:api-client": {},
+    "frontend#build": {
+      "dependsOn": [
+        "api-client#gen:api-client"
+      ]
+    },
+    "build:tsc-only": {},
+    "frontend#build:tsc-only": {
+      "dependsOn": [
+        "api-client#gen:api-client"
+      ]
+    },
+    "migration:run": {
+      "cache": false
+    },
+    "lint": {},
+    "test": {
+      "dependsOn": [
+        "^test"
+      ],
+      "inputs": [
+        "src/**/*.spec.tsx",
+        "src/**/*.test.tsx",
+        "src/**/*.spec.ts",
+        "test/**/*.ts",
+        "test/**/*.json"
+      ]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "api#dev": {
+      "dependsOn": [
+        "^build"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "notification-service#dev": {
+      "dependsOn": [
+        "^build"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "ocr-service#dev": {
+      "dependsOn": [
+        "^build"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "processing-service#dev": {
+      "dependsOn": [
+        "^build"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "deploy": {},
+    "docker:local": {
+      "cache": false
+    }
+  }
+}
